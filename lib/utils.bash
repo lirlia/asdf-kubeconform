@@ -42,10 +42,25 @@ download_release() {
   filename="$2"
 
   # TODO: Adapt the release URL convention for <YOUR TOOL>
-  url="$GH_REPO/archive/v${version}.tar.gz"
+  local url=$(get_download_url $version)
 
   echo "* Downloading $TOOL_NAME release $version..."
   curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
+}
+
+get_download_url() {
+  local version="$1"
+  local platform="$(get_platform)"
+  local arch="$(get_arch)"
+  echo "$GH_REPO/releases/download/v${version}/${TOOL_NAME}-${platform}-${arch}.tar.gz"
+}
+
+get_platform() {
+  uname | tr '[:upper:]' '[:lower:]'
+}
+
+get_arch() {
+  uname -m
 }
 
 install_version() {
