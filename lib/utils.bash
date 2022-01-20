@@ -59,7 +59,9 @@ get_platform() {
 }
 
 get_arch() {
-  uname -m
+  local arch=$(uname -m)
+  [ "$arch" = "x86_64" ] && arch="amd64"
+  echo "$arch"
 }
 
 install_version() {
