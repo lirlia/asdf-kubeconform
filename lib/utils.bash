@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 set -euo pipefail
-set -x
 
 # TODO: Ensure this is the correct GitHub homepage where releases can be downloaded for <YOUR TOOL>.
 GH_REPO="https://github.com/yannh/kubeconform"
@@ -83,7 +82,7 @@ install_version() {
 
     echo "$TOOL_NAME $version installation was successful!"
   ) || (
-    # rm -rf "$install_path"
+    rm -rf "$install_path"
     fail "An error ocurred while installing $TOOL_NAME $version."
   )
 }
