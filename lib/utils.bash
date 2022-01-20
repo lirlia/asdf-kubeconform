@@ -45,7 +45,7 @@ download_release() {
   local url=$(get_download_url $version)
 
   echo "* Downloading $TOOL_NAME release $version..."
-  curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
+  wget --quiet "$url" -O "$filename" || fail "Could not download $url"
 }
 
 get_download_url() {
