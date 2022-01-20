@@ -3,7 +3,7 @@
 set -euo pipefail
 
 # TODO: Ensure this is the correct GitHub homepage where releases can be downloaded for <YOUR TOOL>.
-GH_REPO="yannh/kubeconform"
+GH_REPO="https://github.com/yannh/kubeconform"
 TOOL_NAME="kubeconform"
 TOOL_TEST="kubeconform -h"
 
