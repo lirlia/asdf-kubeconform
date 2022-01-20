@@ -6,7 +6,7 @@ set -x
 # TODO: Ensure this is the correct GitHub homepage where releases can be downloaded for <YOUR TOOL>.
 GH_REPO="https://github.com/yannh/kubeconform"
 TOOL_NAME="kubeconform"
-TOOL_TEST="kubeconform -h"
+TOOL_TEST="kubeconform"
 
 fail() {
   echo -e "asdf-$TOOL_NAME: $*"
@@ -42,7 +42,6 @@ download_release() {
   version="$1"
   filename="$2"
 
-  # TODO: Adapt the release URL convention for <YOUR TOOL>
   local url=$(get_download_url $version)
 
   echo "* Downloading $TOOL_NAME release $version..."
@@ -79,7 +78,7 @@ install_version() {
 
     # TODO: Asert <YOUR TOOL> executable exists.
     local tool_cmd
-    tool_cmd="$(echo "$TOOL_TEST" | cut -d' ' -f1)"
+    tool_cmd="$TOOL_TEST"
     test -x "$install_path/bin/$tool_cmd" || fail "Expected $install_path/bin/$tool_cmd to be executable."
 
     echo "$TOOL_NAME $version installation was successful!"
