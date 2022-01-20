@@ -73,7 +73,7 @@ install_version() {
   fi
 
   (
-    mkdir -p "$install_path"
+    mkdir -p "$install_path/bin"
     cp -r "$ASDF_DOWNLOAD_PATH/$TOOL_NAME" "$install_path/bin/"
 
     # TODO: Asert <YOUR TOOL> executable exists.
