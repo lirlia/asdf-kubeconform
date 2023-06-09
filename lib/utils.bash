@@ -2,8 +2,10 @@
 
 set -euo pipefail
 
-# TODO: Ensure this is the correct GitHub homepage where releases can be downloaded for <YOUR TOOL>.
-GH_REPO="https://github.com/yannh/kubeconform"
+GH_REPO="yannh/kubeconform"
+GH_REPO_URL="https://github.com/${GH_REPO}"
+GH_API_URL="https://api.github.com/repos/${GH_REPO}"
+
 TOOL_NAME="kubeconform"
 TOOL_TEST="kubeconform"
 
@@ -24,16 +26,17 @@ sort_versions() {
     LC_ALL=C sort -t. -k 1,1 -k 2,2n -k 3,3n -k 4,4n -k 5,5n | awk '{print $2}'
 }
 
-list_github_tags() {
-  git ls-remote --tags --refs "$GH_REPO" |
-    grep -o 'refs/tags/.*' | cut -d/ -f3- |
-    sed 's/^v//' # NOTE: You might want to adapt this sed to remove non-version strings from tags
+list_github_releases() {
+  curl "${curl_opts[@]}" "${GH_API_URL}/releases" |
+    grep '"tag_name":' |
+    sed -E 's/.*"([^"]+)".*/\1/' |
+    sed 's/^v//'
 }
 
 list_all_versions() {
   # TODO: Adapt this. By default we simply list the tag names from GitHub releases.
   # Change this function if <YOUR TOOL> has other means of determining installable versions.
-  list_github_tags
+  list_github_releases
 }
 
 download_release() {
@@ -51,7 +54,7 @@ get_download_url() {
   local version="$1"
   local platform="$(get_platform)"
   local arch="$(get_arch)"
-  echo "$GH_REPO/releases/download/v${version}/${TOOL_NAME}-${platform}-${arch}.tar.gz"
+  echo "$GH_REPO_URL/releases/download/v${version}/${TOOL_NAME}-${platform}-${arch}.tar.gz"
 }
 
 get_platform() {
